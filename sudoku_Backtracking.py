@@ -11,19 +11,21 @@ grid = [
     [0, 4, 9, 2, 0, 6, 0, 0, 7]]
 
 
-def sudokuSolver(g):
+def sudokuSolver(g, it):
     find = find_empty(g)
     if not find:
-        return True
+        return True, it
     else:
         row, col = find
+
+    it[0] += 1
 
     for i in range(1, 10):
         if isValid(g, i, (row, col)):
             g[row][col] = i
 
-            if sudokuSolver(g):
-                return True
+            if sudokuSolver(g, it):
+                return True, it
 
             g[row][col] = 0
 
@@ -89,8 +91,11 @@ def find_empty(g):
 if __name__ == "__main__":
     print("\n\nSudoku Initial Grid\n")
     printSudokuGrid(grid)
-
-    if sudokuSolver(grid):
+    it = [0]
+    success, it = sudokuSolver(grid, it)
+    if success:
+        print("Sudoku grid solved with " +
+              str(it[0]) + " iterations.")
         print("\n\nSudoku Solved\n")
         printSudokuGrid(grid)
     else:
