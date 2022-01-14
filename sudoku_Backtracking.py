@@ -1,17 +1,18 @@
 
 grid = [
-    [7, 8, 0, 4, 0, 0, 1, 2, 0],
-    [6, 0, 0, 0, 7, 5, 0, 0, 9],
-    [0, 0, 0, 6, 0, 1, 0, 7, 8],
-    [0, 0, 7, 0, 4, 0, 2, 6, 0],
-    [0, 0, 1, 0, 5, 0, 9, 3, 0],
-    [9, 0, 4, 0, 6, 0, 0, 0, 5],
-    [0, 7, 0, 3, 0, 0, 0, 1, 2],
-    [1, 2, 0, 0, 0, 7, 4, 0, 0],
-    [0, 4, 9, 2, 0, 6, 0, 0, 7]]
+    [1, 0, 0, 8, 0, 0, 0, 0, 9],
+    [0, 0, 0, 3, 0, 5, 0, 8, 7],
+    [3, 9, 0, 0, 0, 0, 6, 0, 0],
+    [0, 0, 0, 0, 5, 7, 9, 0, 0],
+    [5, 0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 4, 6, 0, 0, 0, 0],
+    [0, 0, 4, 0, 0, 0, 0, 1, 5],
+    [2, 8, 0, 5, 0, 1, 0, 0, 0],
+    [9, 0, 0, 0, 0, 4, 0, 0, 3]]
 
 
-def sudokuSolver(g, it):
+def sudokuSolver(g, values, it):
+
     find = find_empty(g)
     if not find:
         return True, it
@@ -20,13 +21,17 @@ def sudokuSolver(g, it):
 
     it[0] += 1
 
-    for i in range(1, 10):
+    if len(values) == 0:
+        values = list(range(1, 10))
+
+    for i in values:
         if isValid(g, i, (row, col)):
             g[row][col] = i
 
-            if sudokuSolver(g, it):
+            if sudokuSolver(g, values, it):
                 return True, it
 
+            it[0] += 1
             g[row][col] = 0
 
     return False
@@ -88,11 +93,19 @@ def find_empty(g):
     return None
 
 
+def testingValues(g, values, it):
+    success, it = sudokuSolver(g, values, it)
+    if success:
+        return it
+    return 0
+
+
 if __name__ == "__main__":
     print("\n\nSudoku Initial Grid\n")
     printSudokuGrid(grid)
     it = [0]
-    success, it = sudokuSolver(grid, it)
+    values = [0]
+    success, it = sudokuSolver(grid, values, it)
     if success:
         print("Sudoku grid solved with " +
               str(it[0]) + " iterations.")
