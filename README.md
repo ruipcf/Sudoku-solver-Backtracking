@@ -8,3 +8,4 @@
            
      install Requirements with:
         $ pip install -r requirements.txt
+![solved](https://user-images.githubusercontent.com/63364478/149575609-997d8b12-c60b-4ec2-b488-d3aa6062eba2.png)
